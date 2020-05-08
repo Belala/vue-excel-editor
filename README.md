@@ -81,14 +81,16 @@ In your template
 | localized-label | Optional  | Object   | Customize labels and messages for localization purpose |
 | n-filter-count  | Optional  | Number   | Number of items to be listed in filter dialog. Default is 200 |
 | remember        | Optional  | Boolean  | Remember the setting in localStorage, default is false |
+| autoAddRow        | Optional  | Function  | 自动调用新增行，(注意:在po中因为判断productId不为空，应该在赋值productId后手动调用一次) |
+| sortable        | Optional  | Boolean  | 全局禁用sort | 
 
 #### Component: vue-excel-column
 | Name           | Mandatory | Type     | Description |
 | :---           | :---      | :---     | :---        |
 | field          | Mandatory | String   | Field name, row object key |
 | label          | Optional  | String   | Header label, default is field name |
-| type           | Optional  | String   | Column type: 'string'(default), 'number', 'select', 'check10', 'checkYN', 'checkTF', 'date', 'datetime', 'datetimesec', 'datetick', 'datetimetick', 'datetimesectick' |
-| readonly       | Optional  | Boolean  | Read-only, default is parent prop: readonly |
+| type           | Optional  | String   | Column type: 'string'(default), 'number', 'select', 'check10', 'checkYN', 'checkTF', 'date', 'datetime', 'datetimesec', 'datetick', 'datetimetick', 'datetimesectick','custom'  注意custom类型需要配合@customclick一起使用|
+| readonly       | Optional  | Boolean|Function  | 支持bool或方法判断(row)=>{ return true} |
 | init-style     | Optional  | Object   | Cell inital style in css |
 | sticky         | Optional  | Boolean  | Fixed column at left of the table, no response on horizontal scrolling |
 | invisible      | Optional  | Boolean  | Column visibility, default is false |
@@ -103,10 +105,11 @@ In your template
 | pos            | Optional  | Number   | Specified column sequence |
 | text-transform | Optional  | String   | Force the input to upppercase or lowercase when editing |
 | text-align     | Optional  | String   | Text alignment, default is 'left' |
-| options        | Optional  | Array    | Define the selectable options, if type != 'select, it works as autocomplete |
-| summary        | Optional  | String   | Summary: 'sum', 'avg', 'max', 'min'. Default is null |
-| to-text        | Optional  | Function | The custom conversion function from object value to edit-text |
-| to-value       | Optional  | Function | The custom conversion function from edit-text to object value |
+| options        | Optional  | Array    | Define the selectable options, if type != 'select, it works as autocomplete 扩展了回调方法 row=>{ return row.xxList } |
+| selectOptions        | Optional  | Object    | 如果使用了回调options，返回对象； 则使用selectOptions设置label,values属性名 以及回调方法 {label:.. value:... setValue:(selectItem, rowData)=>{ rowData.xx=selectItem.value }} |
+| summary        | Optional  | String|Function   | Summary: 'sum', 'avg', 'max', 'min'. Default is null；扩展了方法回调()=>{return 999} |
+| to-text        | Optional  | Function | The custom conversion function from object value to edit-text 例 (v)=>format(v) |
+| to-value       | Optional  | Function | The custom conversion function from edit-text to object value 例:(v)=>moment(v) |
 
 ## Hot Key List
 
@@ -128,6 +131,14 @@ In your template
 | update  | Array Of Array            | Update Cell information |
 | select  | Array of rows, select/not | Emit when rows are selected/unselected |
 | setting | setting                   | Emit when setting (column width, invisible state) is changed |
+| rowChange  | 行改变（注意：新绑定行时需要手动指定，默认第一行） |
+| removeRows  | rows=>{ ... } 批量删除行  |
+
+#### Component: vue-excel-column
+| Name    | Argument                  | Description |
+| :---    | :---                      | :---        |
+| customclick  | {row,cellWriter}           | arg=>{ arg.cellWriter("需要写入的字符") }  该事件用于弹出窗口选择后回给单元格赋值 |
+
 
 (TBD)
 
