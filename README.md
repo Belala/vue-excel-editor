@@ -83,6 +83,9 @@ In your template
 | remember        | Optional  | Boolean  | Remember the setting in localStorage, default is false |
 | autoAddRow        | Optional  | Function  | 自动调用新增行，(注意:在po中因为判断productId不为空，应该在赋值productId后手动调用一次) |
 | sortable        | Optional  | Boolean  | 全局禁用sort | 
+| sid   | Optional  | String  | 是否启用column chooser | 
+| columnSortable   | Optional  | Boolean  | 是否在Chooser中启用列拖拽排序 default is true | 
+
 
 #### Component: vue-excel-column
 | Name           | Mandatory | Type     | Description |
@@ -110,6 +113,7 @@ In your template
 | summary        | Optional  | String|Function   | Summary: 'sum', 'avg', 'max', 'min'. Default is null；扩展了方法回调()=>{return 999} |
 | to-text        | Optional  | Function | The custom conversion function from object value to edit-text 例 (v)=>format(v) |
 | to-value       | Optional  | Function | The custom conversion function from edit-text to object value 例:(v)=>moment(v) |
+| requiredCol       | Optional  | Boolean | 不可通过columnChooser隐藏的列 默认false |
 
 ## Hot Key List
 
